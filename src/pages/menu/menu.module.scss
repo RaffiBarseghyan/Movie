@@ -3,8 +3,7 @@
 * {
   margin: 0;
   padding: 0;
-  transition: all 0.3s ease;
-
+  transition: all 0.7s ease;
 }
 .navbar_menu {
   height: 100vh;
@@ -13,9 +12,12 @@
   justify-content: center;
   position: absolute;
   z-index: 2;
-  background: rgb(4,4,4);
-  background: linear-gradient(90deg, rgba(4,4,4,1) 57%, rgba(0,0,0,0.20220588235294112) 100%);
-
+  background: rgb(4, 4, 4);
+  background: linear-gradient(
+    90deg,
+    rgba(4, 4, 4, 1) 57%,
+    rgba(0, 0, 0, 0.20220588235294112) 100%
+  );
 }
 
 .navbar__list {
@@ -23,8 +25,12 @@
   list-style: none;
   display: flex;
   flex-direction: column;
+  padding-left: 0px !important;
   > a {
     text-decoration: none;
+    display: flex;
+    justify-content: flex-start;
+    transition: all 0.3s ease;
   }
 }
 
@@ -35,7 +41,7 @@
   font-family: "Lato";
   font-weight: 400;
   margin-left: 12px;
-  
+  text-transform: capitalize;
 }
 
 .navbar__li_box {
@@ -47,14 +53,19 @@
 }
 
 .navbar__li_box_select {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background-color: #232a3f;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 10px;
+  a {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: start;
+  }
 }
 
 .navbar__li_box_select_open {
@@ -65,7 +76,12 @@
   margin-top: 10px;
   display: flex;
   align-items: center;
-  
+  a {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: start;
+  }
+
   img {
     margin-right: 5px;
   }
@@ -91,4 +107,14 @@
   opacity: 0.6;
   margin-top: 10px;
   margin-left: 20px;
+  cursor: pointer;
+}
+
+@media only screen and (max-height: 675.6px) {
+  .langs {
+    margin-top: 10px !important;
+  }
+  .navbar__list {
+    padding-top: 10px;
+  }
 }

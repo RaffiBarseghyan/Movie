@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import style from "./menu.module.scss";
+
 import home from "../../assets/icons/Group 46.png";
 import watchLater from "../../assets/icons/Group 47.png";
 import genres from "../../assets/icons/Group 53.png";
 import movies from "../../assets/icons/Group 54.png";
 import TV from "../../assets/icons/Group 56.png";
 import search from "../../assets/icons/ICON - Search.png";
-
-import { Link, useLocation } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -19,12 +18,23 @@ import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Butons from "./butons";
 
 function Menu() {
   const [window, setWindow] = useState(true);
-  const location = useLocation();
-  const [openLeng, setOpenleng] = React.useState(false);
-  const [len, setLen] = React.useState("");
+  const [openLeng, setOpenleng] = useState(false);
+  const [EXET, setEXET] = useState(false);
+
+  const [len, setLen] = useState("");
+
+  const obj = {
+    search: search,
+    "": home,
+    TVShows: TV,
+    movies: movies,
+    genres: genres,
+    watchLater: watchLater,
+  };
 
   const handleChange = (event) => {
     setLen(Number(event.target.value) || "");
@@ -34,9 +44,19 @@ function Menu() {
     setOpenleng(true);
   };
 
+  const handleClickEXIT = () => {
+    setEXET(true);
+  };
+
   const handleClose = (event, reason) => {
     if (reason !== "backdropClick") {
       setOpenleng(false);
+    }
+  };
+
+  const handleEXETClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setEXET(false);
     }
   };
 
@@ -64,143 +84,7 @@ function Menu() {
         style={{ width: window === false ? 250 : 80 }}
       >
         <ul className={style.navbar__list}>
-          <Link
-            className={`${
-              location.pathname === "/search"
-                ? window === true
-                  ? style.navbar__li_box_select
-                  : style.navbar__li_box_select_open
-                : style.navbar__li_box
-            }`}
-            to={"/search"}
-          >
-            <img
-              src={search}
-              alt={search}
-              style={{ paddingLeft: window === false ? 27 : 0 }}
-            />
-
-            <li
-              className={style.navbar__li}
-              style={{ display: window === false ? "inline-block" : "none" }}
-            >
-              Search
-            </li>
-          </Link>
-          <Link
-            className={`${
-              location.pathname === "/"
-                ? window === true
-                  ? style.navbar__li_box_select
-                  : style.navbar__li_box_select_open
-                : style.navbar__li_box
-            }`}
-            to={"/"}
-          >
-            <img
-              src={home}
-              alt={home}
-              style={{ paddingLeft: window === false ? 27 : 0 }}
-            />
-
-            <li
-              className={`navbar__li ${style.navbar__li}`}
-              style={{ display: window === false ? "inline-block" : "none" }}
-            >
-              Home
-            </li>
-          </Link>
-          <Link
-            className={`${
-              location.pathname === "/tv"
-                ? window === true
-                  ? style.navbar__li_box_select
-                  : style.navbar__li_box_select_open
-                : style.navbar__li_box
-            }`}
-            to={"/tv"}
-          >
-            <img
-              src={TV}
-              alt={TV}
-              style={{ paddingLeft: window === false ? 27 : 0 }}
-            />
-            <li
-              className={`navbar__li ${style.navbar__li}`}
-              style={{ display: window === false ? "inline-block" : "none" }}
-            >
-              TV Shows
-            </li>
-          </Link>
-
-          <Link
-            className={`${
-              location.pathname === "/movies"
-                ? window === true
-                  ? style.navbar__li_box_select
-                  : style.navbar__li_box_select_open
-                : style.navbar__li_box
-            }`}
-            to={"/movies"}
-          >
-            <img
-              src={movies}
-              alt={movies}
-              style={{ paddingLeft: window === false ? 27 : 0 }}
-            />
-            <li
-              className={`navbar__li ${style.navbar__li}`}
-              style={{ display: window === false ? "inline-block" : "none" }}
-            >
-              Movies
-            </li>
-          </Link>
-
-          <Link
-            className={`${
-              location.pathname === "/genres"
-                ? window === true
-                  ? style.navbar__li_box_select
-                  : style.navbar__li_box_select_open
-                : style.navbar__li_box
-            }`}
-            to={"/genres"}
-          >
-            <img
-              src={genres}
-              alt={genres}
-              style={{ paddingLeft: window === false ? 27 : 0 }}
-            />
-            <li
-              className={`navbar__li ${style.navbar__li}`}
-              style={{ display: window === false ? "inline-block" : "none" }}
-            >
-              Genres
-            </li>
-          </Link>
-
-          <Link
-            className={`${
-              location.pathname === "/watchLater"
-                ? window === true
-                  ? style.navbar__li_box_select
-                  : style.navbar__li_box_select_open
-                : style.navbar__li_box
-            }`}
-            to={"/watchLater"}
-          >
-            <img
-              src={watchLater}
-              alt={watchLater}
-              style={{ paddingLeft: window === false ? 27 : 0 }}
-            />
-            <li
-              className={`navbar__li ${style.navbar__li}`}
-              style={{ display: window === false ? "inline-block" : "none" }}
-            >
-              Watch Later
-            </li>
-          </Link>
+          <Butons obj={obj} window={window} />
 
           {window === false ? (
             <>
@@ -260,10 +144,26 @@ function Menu() {
                 GET HELP
               </li>
               <li
-                className={style.footer__li}
+                className="ms-1"
                 style={{ display: window === false ? "inline-block" : "none" }}
               >
-                EXIT
+                <Button
+                  onClick={handleClickEXIT}
+                  className={`${style.footer__li} ms-2`}
+                >
+                  EXIT
+                </Button>
+                <Dialog
+                  disableEscapeKeyDown
+                  open={EXET}
+                  onClose={handleEXETClose}
+                >
+                  <DialogTitle>Are you sure you want to Exet?</DialogTitle>
+                  <DialogActions>
+                    <Button onClick={handleEXETClose}>Cancel</Button>
+                    <Button onClick={handleEXETClose}>Ok</Button>
+                  </DialogActions>
+                </Dialog>
               </li>
             </>
           ) : (

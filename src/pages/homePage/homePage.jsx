@@ -27,29 +27,59 @@ function HomePage() {
     sessionStorage.setItem("Id", evt);
     window.location.reload();
   };
-
-  let TendingNow = [...json.TendingNow];
-  const sortedSlides = [...TendingNow].sort((a, b) => a.Date - b.Date);
-
+  let x = 0;
   return (
     <>
       <div className={style.HomePage}>
         <div className={style.HeadBox}>
           {json.TendingNow.map((item) => {
+            if (sessionStorage.getItem("Id") == null && x == 0) {
+              x++;
+              return (
+                <div key={json.Featured.Id}>
+                  <iframe
+                    id="background-video"
+                    className={style.backgroundVideo}
+                    src={`${json.Featured.VideoUrl}`}
+                    allow="autoplay; fullscreen; picture-in-picture"
+                  ></iframe>
+
+                  <h3> {json.Featured.Category}</h3>
+                  <img
+                    className={style.TitleImage}
+                    src={require(`../../assets/${json.Featured.TitleImage}`)}
+                    alt=""
+                  />
+                  <div className="d-flex">
+                    <p>{json.Featured.ReleaseYear}</p>
+                    <p>{json.Featured.MpaRating}</p>
+                    <p>{convertSeconds(json.Featured.Duration)}</p>
+                  </div>
+                  <h4>{json.Featured.Description}</h4>
+
+                  <div className="mt-4">
+                    <button className={style.PlayVideo}>
+                      <FontAwesomeIcon icon={faPlay} className="me-2" />
+                      Play
+                    </button>
+                    <button className={style.PlayInfo}>More Info</button>
+                  </div>
+                </div>
+              );
+            }
             if (item.Id == sessionStorage.getItem("Id")) {
               return (
                 <div key={item.Id}>
-                  <video
+                  <iframe
                     id="background-video"
-                    loop
-                    autoPlay
-                    muted
                     className={style.backgroundVideo}
-                  >
-                    <source src={`${item.VideoUrl}`} type="video/mp4" />
-                  </video>
+                    src={`${item.VideoUrl}`}
+                    allow="autoplay; fullscreen; picture-in-picture"
+                  ></iframe>
+
                   <h3> {item.Category}</h3>
                   <img
+                    className={style.TitleImage}
                     src={require(`../../assets/${item.TitleImage}`)}
                     alt=""
                   />
@@ -67,7 +97,6 @@ function HomePage() {
                     </button>
                     <button className={style.PlayInfo}>More Info</button>
                   </div>
-                  <h5>Trending Now</h5>
                 </div>
               );
             }
@@ -76,7 +105,6 @@ function HomePage() {
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y, Mousewheel]}
           position={"center"}
-          pagination={{ clickable: true }}
           navigation
           slidesPerView={8}
           spaceBetween={50}
@@ -93,16 +121,20 @@ function HomePage() {
             },
             700: {
               spaceBetween: 0,
-              slidesPerView: 4,
-            },
-            200: {
-              spaceBetween: 0,
               slidesPerView: 3,
+            },
+            500: {
+              spaceBetween: 0,
+              slidesPerView: 2,
+            },
+            100: {
+              spaceBetween: 0,
+              slidesPerView: 1,
             },
           }}
         >
           <div className="d-flex">
-            {sortedSlides.map((item) => {
+            {json.TendingNow.map((item) => {
               return (
                 <SwiperSlide
                   key={item.Id}
